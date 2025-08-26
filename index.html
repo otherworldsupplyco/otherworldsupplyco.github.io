@@ -48,7 +48,7 @@
                 <li><a href="#contact" class="text-lg font-medium hover:text-gray-400 transition-colors">Contact</a></li>
             </ul>
         </nav>
-
+                 
         <!-- Product Grid Section -->
         <!-- This section serves as the main products page -->
         <main id="products" class="py-8">
@@ -149,6 +149,57 @@
             <h2 class="text-3xl md:text-4xl font-bold mb-4">Contact</h2>
             <p class="text-gray-400">Please contact us on facebook for now. We are working on getting an email form up that will prevent bots from scraping our email address.</p>
         </section>
+
+<h1 id="glitchClock">00:00:00</h1>
+
+<script>
+(function(){
+  const el = document.getElementById("glitchClock");
+
+  function scramble(txt){
+    const chars = "0123456789:XO#@";
+    return txt.split("").map(c => (c === ":" ? ":" : chars[Math.floor(Math.random()*chars.length)])).join("");
+  }
+
+  function updateClock(){
+    const now = new Date();
+    const h = now.getHours().toString().padStart(2,"0");
+    const m = now.getMinutes().toString().padStart(2,"0");
+    const s = now.getSeconds().toString().padStart(2,"0");
+    const final = `${h}:${m}:${s}`;
+
+    let i = 0;
+    const interval = setInterval(()=>{
+      el.textContent = i < 5 ? scramble(final) : final;
+
+      // color + shadow glitch
+      const hue = Math.floor(Math.random()*360);
+      el.style.color = `hsl(${hue},100%,50%)`;
+      const xOff = Math.floor(Math.random()*10-5);
+      const yOff = Math.floor(Math.random()*10-5);
+      el.style.textShadow = `${xOff}px ${yOff}px 5px hsl(${(hue+180)%360},100%,50%)`;
+
+      i++; if(i>5) clearInterval(interval);
+    },80);
+  }
+
+  updateClock();
+  setInterval(updateClock,1000);
+})();
+</script>
+
+<style>
+#glitchClock {
+  font-size: 3rem;      /* scale as needed */
+  font-weight: 900;
+  font-family: monospace;
+  user-select: none;
+  transition: color 0.05s, text-shadow 0.05s;
+  text-align: center;   /* centers only the text itself */
+  margin: 2rem auto;    /* gives spacing but doesn’t push banners */
+}
+</style>
+
 
     </div>
 
